@@ -48,6 +48,7 @@ With the exception of creating a new knowledge base, these samples will require 
 * Quickstart: [Create a new knowledge base in Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-new-kb-python)
 * Quickstart: [Update a knowledge base in Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/update-kb-python)
 * Quickstart: [Publish a knowledge base in Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/publish-kb-python)
+* More coming soon... in the meantime, refer to [Quickstart for Microsoft QnA Maker API with Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/python) for all quickstarts in minimal format.
 
 
 ## Demo
