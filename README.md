@@ -17,7 +17,7 @@ Included are the following samples:
 * [Update knowledge base](https://github.com/Azure-Samples/cognitive-services-qnamaker-python/blob/master/update-knowledge-base.py). Update an existing knowledge base by changing its name.
 * [Publish knowledge base](https://github.com/Azure-Samples/cognitive-services-qnamaker-python/blob/master/publish-knowledge-base.py). Publish any existing knowledge base to the host your Azure account.
 * [Replace knowledge base](https://github.com/Azure-Samples/cognitive-services-qnamaker-python/blob/master/replace-knowledge-base.py). Replace an entire existing knowledge base with a custom question/answer pair.
-* [Download knowledge base](https://github.com/Azure-Samples/cognitive-services-qnamaker-python/blob/master/download-knowledge-base.py) Download the contents of your existing knowledge base in JSON.
+* [Download knowledge base](https://github.com/Azure-Samples/cognitive-services-qnamaker-python/blob/master/download-knowledge-base.py). Download the contents of your existing knowledge base in JSON.
 
 ## Getting Started
 
