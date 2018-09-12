@@ -34,7 +34,7 @@ For each sample, a subscription key is required from your Azure Portal account.
 
 With the exception of creating a new knowledge base, these samples will require your [QnA Maker account](https://www.qnamaker.ai/Home/MyServices) knowledge base ID. To find your knowledge base ID, go to [My knowledge bases](https://www.qnamaker.ai/Home/MyServices) and select `View Code` on the right. You'll see the http request and your knowledge base ID is in the topmost line: for example, `POST /knowledgebases/2700e6b9-91a1-41e9-a958-6d1a98735b10/...`. Use only the ID.
 
-    <img src="find-kb-id.png">
+<img src="find-kb-id.png">
 
 ### Run the sample
 
