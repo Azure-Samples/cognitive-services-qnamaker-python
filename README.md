@@ -34,9 +34,17 @@ For each sample, a subscription key is required from your Azure Portal account.
 With the exception of creating a new knowledge base, these samples will require your [QnA Maker account](https://www.qnamaker.ai/Home/MyServices) knowledge base ID. 
 
 
-### Installation
+### Run the sample
 
-***More coming soon***
+1. Create a new python project in your favorite IDE or create one in [PyCharm](https://www.jetbrains.com/pycharm/), which has a free evaluation version. If using Pycharm, it is easiest to create one project, then fill it with python files (add to your root folder) for each sample.
+
+1. Copy/paste the sample you want to test into a python file.
+
+1. Add your Azure subscription key and your knowledge base ID (if applicable) at the top of the file where indicated.
+
+1. Run the sample. In PyCharm, go to Run > Edit Configurations and add a new configuration (click the + sign) and choose which script path you want to use (select your python file), then select OK. Run the sample now.
+
+1. Go to your knowledge bases in [qnamaker.ai](https://www.qnamaker.ai/Home/MyServices) to see changes.
 
 ### Quickstart
 
@@ -45,3 +53,6 @@ With the exception of creating a new knowledge base, these samples will require 
 * Quickstart: [Publish a knowledge base in Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/publish-kb-python)
 * More quickstarts coming soon... in the meantime, refer to [Quickstart for Microsoft QnA Maker API with Python](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/python) for all quickstarts in minimal format.
 
+## References
+
+[QnA Maker V4.0](https://westus.dev.cognitive.microsoft.com/docs/services/5a93fcf85b4ccd136866eb37/operations/5ac266295b4ccd1554da75ff)
