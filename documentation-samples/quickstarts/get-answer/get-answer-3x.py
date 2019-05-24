@@ -1,6 +1,6 @@
 import http.client, urllib.parse, json, time, sys
 
-try:
+
 
   # Represents the various elements used to create HTTP request URIs
   # for QnA Maker operations.
@@ -29,6 +29,7 @@ try:
     'Content-Type': 'application/json'
   }
 
+try:
   conn = http.client.HTTPSConnection(host,port=443)
 
   conn.request ("POST", route,  question, headers)
