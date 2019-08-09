@@ -88,7 +88,7 @@ def download_kb(client, kb_id):
 	print("KB Downloaded. It has {} QnAs.".format(len(kb_data.qna_documents)))
 # </downloadkb>
 
-# </deletekb>
+# <deletekb>
 def delete_kb(client, kb_id):
 	client.knowledgebase.delete(kb_id=kb_id)
 # </deletekb>
