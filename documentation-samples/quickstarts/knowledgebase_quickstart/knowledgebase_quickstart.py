@@ -29,11 +29,7 @@ host = os.environ[host_var_name]
 # Helper functions
 # <monitorOperation>
 def _monitor_operation(client, operation):
-    """Helper function for knowledge_based_crud_sample.
 
-    This helper function takes in a QnAMakerClient and an operation, and loops until the operation has either succeeded
-    or failed and returns the operation.
-    """
     for i in range(20):
         if operation.operation_state in [OperationStateType.not_started, OperationStateType.running]:
             print("Waiting for operation: {} to complete.".format(operation.operation_id))
@@ -48,23 +44,23 @@ def _monitor_operation(client, operation):
 
 # <createkb>
 def create_kb(client):
-    """Helper function for knowledge_based_crud_sample.
 
-    This helper function takes in a QnAMakerClient and returns an operation of a created knowledge base.
-    """
     qna = QnADTO(
         answer="You can use our REST APIs to manage your knowledge base.",
         questions=["How do I manage my knowledgebase?"],
         metadata=[MetadataDTO(name="Category", value="api")]
     )
     urls = ["https://docs.microsoft.com/en-in/azure/cognitive-services/qnamaker/faqs"]
+
     create_kb_dto = CreateKbDTO(
         name="QnA Maker FAQ from quickstart",
         qna_list=[qna],
         urls=urls
     )
     create_op = client.knowledgebase.create(create_kb_payload=create_kb_dto)
+    
     create_op = _monitor_operation(client=client, operation=create_op)
+
     return create_op.resource_location.replace("/knowledgebases/", "")
 # </createkb>
 
@@ -86,14 +82,16 @@ def publish_kb(client, kb_id):
     client.knowledgebase.publish(kb_id=kb_id)
 # </publishkb>
 
-# <deletekbs>
+# <downloadkb>
 def download_kb(client, kb_id):
 	kb_data = client.knowledgebase.download(kb_id=kb_id, environment="Prod")
 	print("KB Downloaded. It has {} QnAs.".format(len(kb_data.qna_documents)))
+# </downloadkb>
 
+# </deletekb>
 def delete_kb(client, kb_id):
 	client.knowledgebase.delete(kb_id=kb_id)
-# </deletekbs>
+# </deletekb>
 
 # Main
 
