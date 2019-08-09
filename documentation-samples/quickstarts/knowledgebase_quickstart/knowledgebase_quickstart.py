@@ -1,9 +1,11 @@
+# <dependencies>
 import os
 import time
 
 from azure.cognitiveservices.knowledge.qnamaker import QnAMakerClient
 from azure.cognitiveservices.knowledge.qnamaker.models import QnADTO, MetadataDTO, CreateKbDTO, OperationStateType, UpdateKbOperationDTO, UpdateKbOperationDTOAdd
 from msrest.authentication import CognitiveServicesCredentials
+# </dependencies>
 
 # This sample does the following tasks.
 # - Create a knowledge base.
@@ -12,18 +14,20 @@ from msrest.authentication import CognitiveServicesCredentials
 # - Download a knowledge base.
 # - Delete a knowledge base.
 
-key_var_name = 'QNAMAKER_SUBSCRIPTION_KEY'
+# <resourcekeys>
+key_var_name = 'QNAMAKER_KEY'
 if not key_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(key_var_name))
 subscription_key = os.environ[key_var_name]
 
-region_var_name = 'QNAMAKER_REGION'
-if not region_var_name in os.environ:
-	raise Exception('Please set/export the environment variable: {}'.format(region_var_name))
-region = os.environ[region_var_name]
+host_var_name = 'QNAMAKER_HOST'
+if not host_var_name in os.environ:
+	raise Exception('Please set/export the environment variable: {}'.format(host_var_name))
+host = os.environ[host_var_name]
+# </resourcekeys>
 
 # Helper functions
-
+# <monitorOperation>
 def _monitor_operation(client, operation):
     """Helper function for knowledge_based_crud_sample.
 
@@ -40,7 +44,9 @@ def _monitor_operation(client, operation):
     if operation.operation_state != OperationStateType.succeeded:
         raise Exception("Operation {} failed to complete.".format(operation.operation_id))
     return operation
+# </monitorOperation>
 
+# <createkb>
 def create_kb(client):
     """Helper function for knowledge_based_crud_sample.
 
@@ -60,7 +66,9 @@ def create_kb(client):
     create_op = client.knowledgebase.create(create_kb_payload=create_kb_dto)
     create_op = _monitor_operation(client=client, operation=create_op)
     return create_op.resource_location.replace("/knowledgebases/", "")
+# </createkb>
 
+# <updatekb>
 def update_kb(client, kb_id):
     update_kb_operation_dto = UpdateKbOperationDTO(
         add=UpdateKbOperationDTOAdd(
@@ -71,20 +79,27 @@ def update_kb(client, kb_id):
     )
     update_op = client.knowledgebase.update(kb_id=kb_id, update_kb=update_kb_operation_dto)
     _monitor_operation(client=client, operation=update_op)
+# </updatekb>
 
+# <publishkb>
 def publish_kb(client, kb_id):
-	client.knowledgebase.publish(kb_id=kb_id)
+    client.knowledgebase.publish(kb_id=kb_id)
+# </publishkb>
 
+# <deletekbs>
 def download_kb(client, kb_id):
 	kb_data = client.knowledgebase.download(kb_id=kb_id, environment="Prod")
 	print("KB Downloaded. It has {} QnAs.".format(len(kb_data.qna_documents)))
 
 def delete_kb(client, kb_id):
 	client.knowledgebase.delete(kb_id=kb_id)
+# </deletekbs>
 
 # Main
 
-client = QnAMakerClient(endpoint="https://{}.api.cognitive.microsoft.com".format(region), credentials=CognitiveServicesCredentials(subscription_key))
+# <authorization>
+client = QnAMakerClient(endpoint=host, credentials=CognitiveServicesCredentials(subscription_key))
+# </authorization>
 
 # Create a KB
 print("Creating KB...")
