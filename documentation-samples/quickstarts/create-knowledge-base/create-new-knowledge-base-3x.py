@@ -1,8 +1,8 @@
 import http.client, urllib.parse, json, time
 
-# Represents the various elements used to create HTTP request path
-# for QnA Maker operations.
-host = 'westus.api.cognitive.microsoft.com'
+# Represents the various elements used to create HTTP request path for QnA Maker operations.
+# Replace this with a valid subscription key.
+host = '<your-resource-name>.api.cognitive.microsoft.com'
 service = '/qnamaker/v4.0'
 method = '/knowledgebases/create'
 
