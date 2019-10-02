@@ -7,7 +7,7 @@ try:
   knowledge_base_id = "YOUR-KNOWLEDGE-BASE-ID";
   resource_key = "YOUR-RESOURCE-KEY";
 
-  host = "westus.api.cognitive.microsoft.com"
+  host = "YOUR-RESOURCE-NAME.api.cognitive.microsoft.com"
   route = "/qnamaker/v4.0/knowledgebases/" + knowledge_base_id;
 
   headers = {
