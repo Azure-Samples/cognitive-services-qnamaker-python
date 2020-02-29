@@ -2,7 +2,8 @@ import http.client, urllib.parse, json, time
 
 # Represents the various elements used to create HTTP request path for QnA Maker operations.
 # Replace this with a valid subscription key.
-host = '<your-resource-name>.api.cognitive.microsoft.com'
+# User host = '<your-resource-name>.cognitiveservices.azure.com' 
+host = '<your-resource-name>.cognitiveservices.azure.com'
 service = '/qnamaker/v4.0'
 method = '/knowledgebases/create'
 
