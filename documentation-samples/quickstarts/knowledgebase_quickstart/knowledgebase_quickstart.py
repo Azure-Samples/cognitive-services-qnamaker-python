@@ -2,9 +2,15 @@
 import os
 import time
 
-from azure.cognitiveservices.knowledge.qnamaker import QnAMakerClient
-from azure.cognitiveservices.knowledge.qnamaker.models import QnADTO, MetadataDTO, CreateKbDTO, OperationStateType, UpdateKbOperationDTO, UpdateKbOperationDTOAdd
-from msrest.authentication import CognitiveServicesCredentials
+# To install these packages, run:
+# python -m pip install msrest
+# python -m pip install azure.cognitiveservices.knowledge.qnamaker
+
+from azure.cognitiveservices.knowledge.qnamaker.authoring import QnAMakerClient
+from azure.cognitiveservices.knowledge.qnamaker.authoring.models import QnADTO, MetadataDTO, CreateKbDTO, OperationStateType, UpdateKbOperationDTO, UpdateKbOperationDTOAdd
+from azure.cognitiveservices.knowledge.qnamaker.runtime import QnAMakerRuntimeClient
+from azure.cognitiveservices.knowledge.qnamaker.runtime.models import QueryDTO
+from msrest.authentication import CognitiveServicesCredentials, ApiKeyCredentials
 # </dependencies>
 
 # This sample does the following tasks.
@@ -12,18 +18,24 @@ from msrest.authentication import CognitiveServicesCredentials
 # - Update a knowledge base.
 # - Publish a knowledge base.
 # - Download a knowledge base.
+# - Query a knowledge base.
 # - Delete a knowledge base.
 
 # <resourcekeys>
-key_var_name = 'QNAMAKER_KEY'
+key_var_name = 'QNA_MAKER_SUBSCRIPTION_KEY'
 if not key_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(key_var_name))
 subscription_key = os.environ[key_var_name]
 
-host_var_name = 'QNAMAKER_HOST'
+host_var_name = 'QNA_MAKER_ENDPOINT'
 if not host_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(host_var_name))
 host = os.environ[host_var_name]
+
+runtime_endpoint_var_name = 'QNA_MAKER_RUNTIME_ENDPOINT'
+if not runtime_endpoint_var_name in os.environ:
+	raise Exception('Please set/export the environment variable: {}'.format(runtime_endpoint_var_name))
+runtime_endpoint = os.environ[runtime_endpoint_var_name]
 # </resourcekeys>
 
 # Helper functions
@@ -88,6 +100,23 @@ def download_kb(client, kb_id):
 	print("KB Downloaded. It has {} QnAs.".format(len(kb_data.qna_documents)))
 # </downloadkb>
 
+# <query>
+def query_kb(client, kb_id):
+# Payload type is QueryDTO. See:
+# https://github.com/Azure/azure-sdk-for-python/blob/master/sdk/cognitiveservices/azure-cognitiveservices-knowledge-qnamaker/azure/cognitiveservices/knowledge/qnamaker/runtime/models/query_dto_py3.py
+	payload = QueryDTO(question="How do I manage my knowledgebase?")
+	result = client.runtime.generate_answer(kb_id=kb_id, generate_answer_payload=payload)
+# Result type is QnASearchResultList. See:
+# https://github.com/Azure/azure-sdk-for-python/blob/master/sdk/cognitiveservices/azure-cognitiveservices-knowledge-qnamaker/azure/cognitiveservices/knowledge/qnamaker/runtime/models/qn_asearch_result_list_py3.py
+# https://github.com/Azure/azure-sdk-for-python/blob/master/sdk/cognitiveservices/azure-cognitiveservices-knowledge-qnamaker/azure/cognitiveservices/knowledge/qnamaker/runtime/models/qn_asearch_result_py3.py
+	answers = result.answers
+	print("Results:")
+	for answer in answers:
+		print("Answer: {}".format(answer.answer))
+		print("Score: {}".format(answer.score))
+		print()
+# </query>
+
 # <deletekb>
 def delete_kb(client, kb_id):
 	client.knowledgebase.delete(kb_id=kb_id)
@@ -96,7 +125,13 @@ def delete_kb(client, kb_id):
 # Main
 
 # <authorization>
+def get_runtime_endpoint_key(client):
+	result = client.endpoint_keys.get_keys()
+	return result.primary_endpoint_key
+
 client = QnAMakerClient(endpoint=host, credentials=CognitiveServicesCredentials(subscription_key))
+runtime_endpoint_key = get_runtime_endpoint_key(client)
+runtime_client = QnAMakerRuntimeClient(runtime_endpoint=runtime_endpoint, credentials=ApiKeyCredentials({"Authorization": "EndpointKey " + runtime_endpoint_key}))
 # </authorization>
 
 # Create a KB
@@ -120,6 +155,11 @@ print()
 # Download the KB
 print("Downloading KB...")
 download_kb (client=client, kb_id=kb_id)
+print()
+
+# Query the KB
+print("Sending query to KB...")
+query_kb (client=runtime_client, kb_id=kb_id)
 print()
 
 # Delete the KB
