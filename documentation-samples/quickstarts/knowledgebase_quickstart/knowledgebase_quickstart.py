@@ -27,11 +27,15 @@ if not key_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(key_var_name))
 subscription_key = os.environ[key_var_name]
 
+# The QnA Maker authoring endpoint has the form:
+# https://<your resource name>.cognitiveservices.azure.com
 host_var_name = 'QNA_MAKER_ENDPOINT'
 if not host_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(host_var_name))
 host = os.environ[host_var_name]
 
+# The QnA Maker runtime endpoint has the form:
+# https://<your resource name>.azurewebsites.net
 runtime_endpoint_var_name = 'QNA_MAKER_RUNTIME_ENDPOINT'
 if not runtime_endpoint_var_name in os.environ:
 	raise Exception('Please set/export the environment variable: {}'.format(runtime_endpoint_var_name))
@@ -130,6 +134,13 @@ def get_runtime_endpoint_key(client):
 	return result.primary_endpoint_key
 
 client = QnAMakerClient(endpoint=host, credentials=CognitiveServicesCredentials(subscription_key))
+
+# You cannot authenticate to the QnA Maker runtime endpoint with the
+# subscription key you use to authenticate to the authoring endpoint. Instead,
+# you use a runtime endpoint key that you can obtain via the authoring
+# endpoint.
+# The runtime endpoint expects a header named "Authorization" with the value:
+# EndpointKey <runtime endpoint key>
 runtime_endpoint_key = get_runtime_endpoint_key(client)
 runtime_client = QnAMakerRuntimeClient(runtime_endpoint=runtime_endpoint, credentials=ApiKeyCredentials({"Authorization": "EndpointKey " + runtime_endpoint_key}))
 # </authorization>
